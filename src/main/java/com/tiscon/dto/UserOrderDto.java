@@ -16,6 +16,8 @@ public class UserOrderDto {
 
     private String newAddress;
 
+    private String scheduledDate;
+
     private String box;
 
     private String bed;
@@ -80,6 +82,14 @@ public class UserOrderDto {
 
     public void setNewAddress(String newAddress) {
         this.newAddress = newAddress;
+    }
+
+    public String getScheduledDate() {
+        return scheduledDate;
+    }
+
+    public void setScheduledDate(String scheduledDate) {
+        this.scheduledDate = scheduledDate;
     }
 
     public int getBox() {
