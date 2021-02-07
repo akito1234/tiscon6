@@ -129,10 +129,49 @@ public class EstimateDao {
      * @return 料金[円]
      */
     public int getPricePerTruck(int boxNum) {
-        String sql = "SELECT PRICE FROM TRUCK_CAPACITY WHERE MAX_BOX >= :boxNum ORDER BY PRICE LIMIT 1";
+        /*
+        * トラックの最大段ボールを取得
+        * 段ボールの数に応じて，場合わけ
+        * 料金算出
+        * */
 
-        SqlParameterSource paramSource = new MapSqlParameterSource("boxNum", boxNum);
-        return parameterJdbcTemplate.queryForObject(sql, paramSource, Integer.class);
+        // トラックの最大段ボール数
+        String sql = "SELECT MAX_BOX FROM TRUCK_CAPACITY ORDER BY MAX_BOX DESC";
+        SqlParameterSource paramSource = new MapSqlParameterSource();
+        List<Integer> TrackBox = parameterJdbcTemplate.queryForList(sql,paramSource,Integer.class);
+
+        // 0が4トン，1が2トン
+        // 0:200 1:80
+        // 段ボール数からトラックの台数を算出する
+        int fourTrack;
+        int twoTrack;
+        fourTrack = 0;
+        twoTrack = 0;
+
+        if(boxNum < TrackBox.get(1)){
+            //段ボールの数が80個以下
+            twoTrack = 1;
+        } else if((boxNum < TrackBox.get(0)) && (boxNum >= TrackBox.get(1))){
+            //段ボールの数が80個以上200個以下
+            fourTrack = 1;
+        } else if(boxNum > TrackBox.get(0)){
+            // 段ボールの数が200個以
+            //4トントラック(5万)：  段ボール/ 200
+            fourTrack = boxNum / TrackBox.get(0);
+            if((boxNum % TrackBox.get(0)) < TrackBox.get(1)) {
+                twoTrack = 1;
+            }else{
+                fourTrack += 1;
+            }
+        }
+
+        // 料金算出
+        String sqlprice = "SELECT PRICE FROM TRUCK_CAPACITY ORDER BY MAX_BOX DESC";
+        SqlParameterSource paramSourceprice = new MapSqlParameterSource();
+        List<Integer> TrackPrice = parameterJdbcTemplate.queryForList(sqlprice,paramSourceprice,Integer.class);
+        // 0が4トン，1が2トン
+        int priceResult = fourTrack*TrackPrice.get(0) + twoTrack*TrackPrice.get(1);
+        return priceResult;
     }
 
     /**
