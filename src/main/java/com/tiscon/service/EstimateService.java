@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.*;
 
 /**
  * 引越し見積もり機能において業務処理を担当するクラス。
@@ -42,10 +43,10 @@ public class EstimateService {
      * @param dto 見積もり依頼情報
      */
     @Transactional
-    public void registerOrder(UserOrderDto dto) {
+    public boolean registerOrder(UserOrderDto dto) {
         Customer customer = new Customer();
         BeanUtils.copyProperties(dto, customer);
-        estimateDAO.insertCustomer(customer);
+        if(estimateDAO.insertCustomer(customer) < 0) return false;
 
         if (dto.getWashingMachineInstallation()) {
             CustomerOptionService washingMachine = new CustomerOptionService();
@@ -61,6 +62,7 @@ public class EstimateService {
         packageList.add(new CustomerPackage(customer.getCustomerId(), PackageType.BICYCLE.getCode(), dto.getBicycle()));
         packageList.add(new CustomerPackage(customer.getCustomerId(), PackageType.WASHING_MACHINE.getCode(), dto.getWashingMachine()));
         estimateDAO.batchInsertCustomerPackage(packageList);
+        return true;
     }
 
     /**

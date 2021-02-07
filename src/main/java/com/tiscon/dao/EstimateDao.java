@@ -3,12 +3,18 @@ package com.tiscon.dao;
 import com.tiscon.domain.*;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.core.NestedRuntimeException;
+import org.springframework.dao.DataAccessException;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.lang.*;
 
 /**
  * 引越し見積もり機能においてDBとのやり取りを行うクラス。
@@ -37,7 +43,10 @@ public class EstimateDao {
      * @return 登録件数
      */
     public int insertCustomer(Customer customer) {
-        String sql = "INSERT INTO CUSTOMER(OLD_PREFECTURE_ID, NEW_PREFECTURE_ID, CUSTOMER_NAME, TEL, EMAIL, OLD_ADDRESS, NEW_ADDRESS, SCHEDULED_DATE)"
+        String sql = "SELECT COUNT(CUSTOMER_NAME) FROM CUSTOMER WHERE OLD_PREFECTURE_ID=:oldPrefectureId AND NEW_PREFECTURE_ID=:newPrefectureId AND CUSTOMER_NAME=:customerName AND TEL=:tel AND EMAIL=:email AND OLD_ADDRESS=:oldAddress AND NEW_ADDRESS=:newAddress AND SCHEDULED_DATE=:scheduledDate";
+
+        if(parameterJdbcTemplate.queryForObject(sql, new BeanPropertySqlParameterSource(customer), Integer.class) > 0) return -1;
+        sql = "INSERT INTO CUSTOMER(OLD_PREFECTURE_ID, NEW_PREFECTURE_ID, CUSTOMER_NAME, TEL, EMAIL, OLD_ADDRESS, NEW_ADDRESS, SCHEDULED_DATE)"
                 + " VALUES(:oldPrefectureId, :newPrefectureId, :customerName, :tel, :email, :oldAddress, :newAddress, :scheduledDate)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int resultNum = parameterJdbcTemplate.update(sql, new BeanPropertySqlParameterSource(customer), keyHolder);
