@@ -157,8 +157,13 @@ public class EstimateController {
 
         UserOrderDto dto = new UserOrderDto();
         BeanUtils.copyProperties(userOrderForm, dto);
-        estimateService.registerOrder(dto);
-
+        if(estimateService.registerOrder(dto)) {
+            model.addAttribute("h2Msg", "申し込みが完了しました。");
+            model.addAttribute("pMsg", "お電話にて正確な見積もり結果をお伝えいたします。");
+        } else {
+            model.addAttribute("h2Msg", "重複する申し込みがあります。");
+            model.addAttribute("pMsg", "お心当たりがない場合は、お電話にてご確認ください。");
+        }
         return "complete";
     }
 
