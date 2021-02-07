@@ -160,9 +160,11 @@ public class EstimateController {
         if(estimateService.registerOrder(dto)) {
             model.addAttribute("h2Msg", "申し込みが完了しました。");
             model.addAttribute("pMsg", "お電話にて正確な見積もり結果をお伝えいたします。");
+            model.addAttribute("p2Msg", "荷物情報に、変更がございましたら、正式見積もりの際にお申し付けください。");
         } else {
             model.addAttribute("h2Msg", "重複する申し込みがあります。");
             model.addAttribute("pMsg", "お心当たりがない場合は、お電話にてご確認ください。");
+            model.addAttribute("p2Msg", "なお、登録済みの荷物情報は、正式見積もりの際に変更可能です。");
         }
         return "complete";
     }
