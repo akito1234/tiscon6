@@ -94,7 +94,17 @@ public class EstimateService {
             priceForOptionalService = estimateDAO.getPricePerOptionalService(OptionalServiceType.WASHING_MACHINE.getCode());
         }
 
-        return priceForDistance + pricePerTruck + priceForOptionalService;
+        //引っ越し予定月を取得し、季節係数を決定
+        double N = 1.0;
+        String date = dto.getScheduledDate();
+        String month = date.substring(5,7);
+        if(month.equals("03") || month.equals("04")){
+            N = 1.5;
+        }else if (month.equals("09")){
+            N = 1.2;
+        }
+
+        return (int)((priceForDistance + pricePerTruck) * N + priceForOptionalService);
     }
 
     /**
