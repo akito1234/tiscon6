@@ -58,6 +58,14 @@ public class UserOrderForm {
     @NotNull
     private boolean washingMachineInstallation;
 
+    public UserOrderForm() {
+        this.bicycle = "0";
+        this.box = "0";
+        this.bed = "0";
+        this.washingMachine = "0";
+    }
+
+
     public String getCustomerName() {
         return customerName;
     }

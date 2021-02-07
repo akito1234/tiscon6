@@ -22,67 +22,67 @@
       <fieldset>
         <legend>個人情報</legend>
         <div class="form-group">
-          <label for="customerName">氏名</label>
-          <input type="text" id="customerName" name="customerName" th:field="*{customerName}" class="form-control" value="山田太郎"/>
+          <label for="customerName">氏名 <span class="badge badge-danger">必須</span></label>
+          <input type="text" id="customerName" name="customerName" th:field="*{customerName}" class="form-control" placeholder="山田太郎" required/>
         </div>
         <div class="form-group">
-          <label for="tel">連絡先TEL</label>
-          <input type="tel" id="tel" name="tel" th:field="*{tel}" class="form-control" value="03-1234-5678"/>
+          <label for="tel">連絡先TEL <span class="badge badge-danger">必須</span></label>
+          <input type="tel" id="tel" name="tel" th:field="*{tel}" class="form-control" placeholder="03-1234-5678" required/>
         </div>
         <div class="form-group">
-          <label for="email">連絡先メールアドレス</label>
-          <input type="text" id="email" name="email" th:field="*{email}" class="form-control" value="test@test.com"/>
+          <label for="email">連絡先メールアドレス <span class="badge badge-danger">必須</span></label>
+          <input type="text" id="email" name="email" th:field="*{email}" class="form-control" placeholder="test@test.com" required/>
         </div>
         <div class="form-group">
-          <label for="oldPrefectureId">転居元住所（都道府県）</label>
-          <select id="oldPrefectureId" name="oldPrefectureId" class="form-control">
+          <label for="oldPrefectureId">転居元住所（都道府県) <span class="badge badge-danger">必須</span></label>
+          <select id="oldPrefectureId" name="oldPrefectureId" class="form-control" required>
             <option th:each="prefecture : ${prefectures}" th:value="${prefecture.prefectureId}" th:field="*{oldPrefectureId}">[[${prefecture.prefectureName}]]</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="oldAddress">転居元住所（市区町村以下）</label>
+          <label for="oldAddress">転居元住所（市区町村以下） <span class="badge badge-danger">必須</span></label>
           <input type="text" id="oldAddress" name="oldAddress" th:field="*{oldAddress}"
-                 class="form-control" value="新宿区西新宿1-1-1"/>
+                 class="form-control" placeholder="新宿区西新宿1-1-1" required/>
         </div>
         <div class="form-group">
-          <label for="newPrefectureId">転居先住所（都道府県）</label>
-          <select id="newPrefectureId" name="newPrefectureId" class="form-control">
+          <label for="newPrefectureId">転居先住所（都道府県） <span class="badge badge-danger">必須</span></label>
+          <select id="newPrefectureId" name="newPrefectureId" class="form-control" required>
             <option th:each="prefecture : ${prefectures}" th:value="${prefecture.prefectureId}" th:field="*{newPrefectureId}">[[${prefecture.prefectureName}]]</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="newAddress">転居先住所（市区町村以下）</label>
+          <label for="newAddress">転居先住所（市区町村以下） <span class="badge badge-danger">必須</span></label>
           <input type="text" id="newAddress" name="newAddress" th:field="*{newAddress}" class="form-control"
-                 value="札幌市南区1"/>
+                 placeholder="札幌市南区1" required/>
         </div>
         <div class="form-group">
-          <label for="scheduledDate">引っ越し予定日</label>
+          <label for="scheduledDate">引っ越し予定日 <span class="badge badge-danger">必須</span></label>
         <input type="date" id="scheduledDate" name="scheduledDate" th:field="*{scheduledDate}" class="form-control"
-               value="YYYY年MM月DD日"/>
+               value="YYYY年MM月DD日" required/>
         </div>
       </fieldset>
       <fieldset>
         <legend>荷物情報</legend>
         <div class="form-group">
-          <label for="box">段ボールの個数</label>
-          <input type="text" id="box" name="box" th:field="*{box}" class="form-control" value="10"/>
+          <label for="box">段ボールの個数 <span class="badge badge-danger">必須</span></label>
+          <input type="number" id="box" name="box" th:field="*{box}" class="form-control" placeholder="10" min="0" required/>
         </div>
         <div class="form-group">
-          <label for="bed">ベッドの個数</label>
-          <input type="text" id="bed" name="bed" th:field="*{bed}" class="form-control" value="3"/>
+          <label for="bed">ベッドの個数 <span class="badge badge-danger">必須</span></label>
+          <input type="number" id="bed" name="bed" th:field="*{bed}" class="form-control" placeholder="3"  min="0" required/>
         </div>
         <div class="form-group">
-          <label for="bicycle">自転車の個数</label>
-          <input type="text" id="bicycle" name="bicycle" th:field="*{bicycle}" class="form-control" value="1"/>
+          <label for="bicycle">自転車の個数 <span class="badge badge-danger">必須</span></label>
+          <input type="number" id="bicycle" name="bicycle" th:field="*{bicycle}" class="form-control" placeholder="1" min="0" required/>
         </div>
         <div class="form-group">
-          <label for="washingMachine">洗濯機の個数</label>
-          <input type="text" id="washingMachine" name="washingMachine" th:field="*{washingMachine}" class="form-control"
-                 value="1"/>
+          <label for="washingMachine">洗濯機の個数 <span class="badge badge-danger">必須</span></label>
+          <input type="number" id="washingMachine" name="washingMachine" th:field="*{washingMachine}" class="form-control" min="0"
+                 placeholder="1"  required/>
         </div>
         <div class="form-group">
-          <label for="washingMachineInstallation">洗濯機の設置工事申し込み</label>
-          <select id="washingMachineInstallation" name="washingMachineInstallation" class="form-control" th:field="*{washingMachineInstallation}">
+          <label for="washingMachineInstallation">洗濯機の設置工事申し込み <span class="badge badge-danger">必須</span></label>
+          <select id="washingMachineInstallation" name="washingMachineInstallation" class="form-control" th:field="*{washingMachineInstallation}"  required>
             <option th:value="false" th:text="なし">なし</option>
             <option th:value="true" th:text="あり">あり</option>
           </select>
@@ -100,6 +100,8 @@
 <script src="../js/jquery-3.5.1.min.js" th:src="@{/js/jquery-3.5.1.min.js}"></script>
 <script src="../js/popper.min.js" th:src="@{/js/popper.min.js}"></script>
 <script src="../js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="../js/setschedule.js"></script>
+
 </body>
 
 </html>
